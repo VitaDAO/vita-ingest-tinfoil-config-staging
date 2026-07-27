@@ -1,0 +1,45 @@
+name: Build and attest Vita Ingest staging enclave
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
+      attestations: write
+
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+
+      - name: Require a lightweight release tag
+        shell: bash
+        run: |
+          object_type="$(git cat-file -t "$GITHUB_REF")"
+          if [ "$object_type" != "commit" ]; then
+            echo "Refusing to attest tag object type '$object_type'."
+            exit 1
+          fi
+
+      - name: Enforce staging-only isolation
+        shell: bash
+        run: |
+          grep -q 'staging-vita-ingest.debug.vitality-now.containers.tinfoil.dev' tinfoil-config.yml
+          grep -q 'VITA_ANALYTICS_ENVIRONMENT: "staging"' tinfoil-config.yml
+          grep -q 'POSTHOG_STAGING_PROJECT_KEY' tinfoil-config.yml
+          grep -q 'STAGING_SUPABASE_URL' tinfoil-config.yml
+          if grep -Eq '(^|[^A-Z_])(SUPABASE_SERVICE_ROLE_KEY|CONNECTION_TOKEN_KEK|POSTHOG_PROJECT_KEY)([^A-Z_]|$)' tinfoil-config.yml; then
+            echo "Refusing production secret names in the staging manifest."
+            exit 1
+          fi
+
+      - uses: tinfoilsh/pri-build-action@5d450a7f30904866efc401e24484b935b7ed52dd
+        with:
+          config-file: ${{ github.workspace }}/tinfoil-config.yml
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: "true"

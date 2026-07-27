@@ -1,0 +1,69 @@
+# Tinfoil Container Configuration - vita-ingest staging debug
+#
+# PUBLIC REPOSITORY. Never commit secret values here.
+# This manifest is intentionally isolated from the production trust root.
+
+cvm-version: 0.7.5
+cpus: 2
+memory: 4096
+
+containers:
+  - name: vita-ingest
+    image: "ghcr.io/vitadao/vita-ingest:sha-7119129@sha256:49b4a236c9926eba563eafa14b54be4afc8b6aac2e6961d5304ef62aa8823233"
+    registry:
+      username: DobrinAlexandru
+      password_secret: VITA_INGEST_GHCR_TOKEN
+
+    env:
+      - PORT: "8080"
+      - TINFOIL_PUBLIC_URL: "https://staging-vita-ingest.debug.vitality-now.containers.tinfoil.dev"
+      - VITA_INGEST_CORS_ORIGINS: "https://staging-app.vitadao.com"
+      - TINFOIL_LAB_TEXT_MODEL: "gemma4-31b"
+      - SENTRY_ENVIRONMENT: "staging"
+      - SENTRY_RELEASE: "vita-ingest@7119129b"
+      - VITA_INGEST_VERSION: "vita-ingest@7119129b"
+      - VITA_ANALYTICS_ENVIRONMENT: "staging"
+      - SENTRY_TRACES_SAMPLE_RATE: "0"
+      - DEFAULT_FRONTEND_URL: "https://staging-app.vitadao.com"
+      - ALLOWED_REDIRECT_ORIGINS: "https://staging-app.vitadao.com"
+
+    secrets:
+      - VITA_INGEST_GHCR_TOKEN
+
+      # Isolated staging data plane. The runtime aliases these names onto the
+      # unprefixed names used internally; production credentials are never
+      # mounted into this debug enclave.
+      - STAGING_SUPABASE_URL
+      - STAGING_SUPABASE_PUBLISHABLE_KEY
+      - STAGING_SUPABASE_SECRET_KEY
+      - STAGING_CONNECTION_TOKEN_KEK
+
+      - TINFOIL_API_KEY
+      - SENTRY_DSN
+
+      - OURA_CLIENT_ID
+      - OURA_CLIENT_SECRET
+      - WHOOP_CLIENT_ID
+      - WHOOP_CLIENT_SECRET
+      - WITHINGS_CLIENT_ID
+      - WITHINGS_CLIENT_SECRET
+
+      # Anonymous, telemetry-only staging project key.
+      - POSTHOG_STAGING_PROJECT_KEY
+
+shim:
+  upstream-port: 8080
+  paths:
+    - /health
+    - /api/parse-lab-results
+    - /api/summarize-screening-report
+    - /api/wearable/oura/auth
+    - /api/wearable/oura/callback
+    - /api/wearable/oura/fetch
+    - /api/wearable/whoop/auth
+    - /api/wearable/whoop/callback
+    - /api/wearable/whoop/fetch
+    - /api/wearable/whoop/sync
+    - /api/wearable/withings/auth
+    - /api/wearable/withings/callback
+    - /api/wearable/withings/fetch
