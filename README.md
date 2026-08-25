@@ -9,4 +9,4 @@ Dedicated public attestation configuration for the debug
 - Secret values belong in the Tinfoil organization vault, never in Git.
 
 Current source revision:
-`3745107f807155e521cecd9e13abcd38b3f1e6b9`.
+`c3cc073870ac94e35be413ad0b59ec561ccd3edf`.
