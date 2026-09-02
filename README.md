@@ -9,4 +9,7 @@ Dedicated public attestation configuration for the debug
 - Secret values belong in the Tinfoil organization vault, never in Git.
 
 Current source revision:
-`10ec6563239d805a82f1852ffabade98598d43b2`.
+`031414e6e6a7a43f1ac9e0aaf797462c457bcbfb`.
+
+Verified equivalent Vita App staging commit:
+`dfb1ce7a2cb6f36cdcf19deb2285540905b3e692`.
