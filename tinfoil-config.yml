@@ -9,7 +9,7 @@ memory: 4096
 
 containers:
   - name: vita-ingest
-    image: "ghcr.io/vitadao/vita-ingest:sha-1a7aae8@sha256:85934341425ec41a9b7497baeaa39143cedc20c89bfa6c94474a560a6aa345d3"
+    image: "ghcr.io/vitadao/vita-ingest:sha-ea18924@sha256:7ac15216a00aa320f72e820a83b767191f9be5d3f5fab442bda8680b1ed1a96e"
     registry:
       username: DobrinAlexandru
       password_secret: VITA_INGEST_GHCR_TOKEN
@@ -20,8 +20,8 @@ containers:
       - VITA_INGEST_CORS_ORIGINS: "https://staging-app.vitadao.com"
       - TINFOIL_LAB_TEXT_MODEL: "gemma4-31b"
       - SENTRY_ENVIRONMENT: "staging"
-      - SENTRY_RELEASE: "vita-ingest@1a7aae8a"
-      - VITA_INGEST_VERSION: "vita-ingest@1a7aae8a"
+      - SENTRY_RELEASE: "vita-ingest@ea189241"
+      - VITA_INGEST_VERSION: "vita-ingest@ea189241"
       - VITA_ANALYTICS_ENVIRONMENT: "staging"
       - SENTRY_TRACES_SAMPLE_RATE: "0"
       - DEFAULT_FRONTEND_URL: "https://staging-app.vitadao.com"
