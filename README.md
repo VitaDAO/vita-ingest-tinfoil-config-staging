@@ -8,8 +8,8 @@ Dedicated public attestation configuration for the debug
 - Images are pinned by immutable digest and releases use lightweight tags.
 - Secret values belong in the Tinfoil organization vault, never in Git.
 
-Current source revision:
-`1a7aae8a8b1898dbe00afb8317ad73af6ebe9371`.
+Current candidate:
 
-Verified equivalent Vita App staging commit:
-`1a7aae8a8b1898dbe00afb8317ad73af6ebe9371`.
+- Vita App PR: [VitaDAO/vita-app#356](https://github.com/VitaDAO/vita-app/pull/356)
+- Source: `ea189241aa84eeb621bea509488d03f8d134f32f`
+- Image: `ghcr.io/vitadao/vita-ingest:sha-ea18924@sha256:7ac15216a00aa320f72e820a83b767191f9be5d3f5fab442bda8680b1ed1a96e`
